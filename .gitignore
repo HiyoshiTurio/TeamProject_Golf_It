@@ -78,3 +78,5 @@ crashlytics-build.properties
 .idea/
 Assets/Plugins/Editor/JetBrains*
 Assets/Private
+Assets/TextMesh Pro/
+Assets/OutGame/Font/
