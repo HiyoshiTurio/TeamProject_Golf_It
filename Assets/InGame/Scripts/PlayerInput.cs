@@ -15,7 +15,8 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            ballController.ShotBall();
+            if(ballController.CanShot)
+                ballController.ShotBall();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
