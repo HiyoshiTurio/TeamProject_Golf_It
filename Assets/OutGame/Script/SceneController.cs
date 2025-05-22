@@ -1,8 +1,8 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// ƒV[ƒ“‘JˆÚ—p‚ÌƒVƒ“ƒOƒ‹ƒgƒ“ƒNƒ‰ƒX
+/// ã‚·ãƒ¼ãƒ³é·ç§»ç”¨ã®ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¯ãƒ©ã‚¹
 /// </summary>
 public class SceneController : MonoBehaviour
 {
