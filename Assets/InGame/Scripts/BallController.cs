@@ -1,16 +1,34 @@
+using System;
 using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
-    [SerializeField] float shotPower = 10;
-    [SerializeField] float minSpeed = 0.1f; //MinSpeed以下になったら完全に静止する
-    [SerializeField] GameObject directionIndicator; //ボールの向きを示すオブジェクト
+    [SerializeField] private float minSpeed = 0.1f; //MinSpeed以下になったら完全に静止する
+    [SerializeField] private float maxShotPower = 20f;
+    [SerializeField] private float minShotPower = 5f;
+    [SerializeField] private GameObject directionIndicator; //ボールの向きを示すオブジェクト
     [SerializeField] private GameObject cameraLookObj;
     private Rigidbody _rb;
     private Camera _camera;
     private bool _isBallMoving = true;
     private bool _canShot = false;
+    private float _timer = 0;
+    private float _shotPower = 0f;
     
+    public float MaxShotPower => maxShotPower;
+    public float MinShotPower => minShotPower;
+    public  event Action<float> UpdateBallPower; // void UpdateBallPower(float power);
+
+    public float ShotPower
+    {
+        get { return _shotPower; }
+        set
+        {
+            _shotPower = value;
+            UpdateBallPower?.Invoke(_shotPower);
+        }
+    }
+
     public bool IsBallMoving
     {
         get { return _isBallMoving; }
@@ -22,7 +40,6 @@ public class BallController : MonoBehaviour
         }
     }
 
-    public bool CanShot => _canShot;
 
     private void Awake()
     {
@@ -53,12 +70,30 @@ public class BallController : MonoBehaviour
 
     public void ShotBall()
     {
+        if(!_canShot) return;
         Vector3 direction = _camera.transform.forward;
         direction.y = 0;
         direction.Normalize();
-        _rb.AddForce(direction * shotPower,ForceMode.Impulse);
+        _rb.AddForce(direction * ShotPower,ForceMode.Impulse);
         _canShot = false;
         Invoke("BallMoving", 0.1f);
+        Debug.Log(ShotPower);
+        
+        _timer = 0;
+        ShotPower = 0f;
+    }
+
+    public void ShotPowerRoulette()
+    {
+        if(!_canShot) return;
+        _timer += Time.deltaTime;
+        if (_timer > 1f)
+            _timer -= 1f;
+        var sin = Math.Sin(_timer * 90f * (Math.PI / 180f));
+        float tmp = (maxShotPower - minShotPower) * (float)sin;
+        ShotPower = minShotPower + tmp;
+        
+        Debug.Log(ShotPower);
     }
 
     void BallMoving()

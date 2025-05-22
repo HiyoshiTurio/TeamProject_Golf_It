@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
@@ -15,11 +13,18 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            if(ballController.CanShot)
-                ballController.ShotBall();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButton("Fire1"))
+        {
+            ballController.ShotPowerRoulette();
+        }
+
+        if (Input.GetButtonUp("Fire1"))
+        {
+            ballController.ShotBall();
+        }
+        if (Input.GetButtonDown("Cancel"))
         {
             if (Cursor.visible)
             {
@@ -32,5 +37,6 @@ public class PlayerInput : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
             }
         }
+
     }
 }
