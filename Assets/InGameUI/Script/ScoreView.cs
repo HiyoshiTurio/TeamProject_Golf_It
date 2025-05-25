@@ -3,25 +3,26 @@ using UnityEngine.UI;
 
 public class ScoreView : MonoBehaviour
 {
+    [SerializeField] private GameSystem _gameSystem;
     [SerializeField] private Text _scoreText;
 
     private void OnEnable()
     {
-        //todo: 登録
-        //HogeClass.OnScore += UpdateScoreText;
+        //登録
+        // _gameSystem.OnScoreChanged += UpdateScoreText;
     }
 
     private void OnDisable()
     {
-        //todo: 解除
-        //HogeClass.OnScore -= UpdateScoreText;
+        // 解除
+        // _gameSystem.OnScoreChanged -= UpdateScoreText;
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="currentScore">現在のスコア</param>
-    private void UpdateScoreText(int currentScore)
+    /// <param name="currentScore">表示したいスコア</param>
+    private void UpdateScoreText(float currentScore)
     {
         _scoreText.text = $"{currentScore}";
     }
