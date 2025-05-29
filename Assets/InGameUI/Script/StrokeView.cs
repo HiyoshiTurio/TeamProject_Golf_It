@@ -6,19 +6,18 @@ using UnityEngine.UI;
 /// </summary>
 public class StrokeView : MonoBehaviour
 {
-    [SerializeField] private GameSystem _gameSystem;
     [SerializeField] private Text _strokeText;
 
     private void OnEnable()
     {
         //登録
-        // _gameSystem.OnDasuuChanged += UpdateStrokeText;
+        GameSystem.Instance.OnDasuuChanged += UpdateStrokeText;
     }
 
     private void OnDisable()
     {
         //解除
-        // _gameSystem.OnDasuuChanged -= UpdateStrokeText;
+        GameSystem.Instance.OnDasuuChanged -= UpdateStrokeText;
     }
 
     /// <summary>

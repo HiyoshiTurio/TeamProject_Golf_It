@@ -3,19 +3,18 @@ using UnityEngine.UI;
 
 public class ScoreView : MonoBehaviour
 {
-    [SerializeField] private GameSystem _gameSystem;
     [SerializeField] private Text _scoreText;
 
     private void OnEnable()
     {
         //登録
-        // _gameSystem.OnScoreChanged += UpdateScoreText;
+        GameSystem.Instance.OnScoreChanged += UpdateScoreText;
     }
 
     private void OnDisable()
     {
         // 解除
-        // _gameSystem.OnScoreChanged -= UpdateScoreText;
+        GameSystem.Instance.OnScoreChanged -= UpdateScoreText;
     }
 
     /// <summary>
