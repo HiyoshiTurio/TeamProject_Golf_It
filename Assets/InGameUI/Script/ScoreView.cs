@@ -7,21 +7,21 @@ public class ScoreView : MonoBehaviour
 
     private void OnEnable()
     {
-        //todo: 登録
-        //HogeClass.OnScore += UpdateScoreText;
+        //登録
+        GameSystem.Instance.OnScoreChanged += UpdateScoreText;
     }
 
     private void OnDisable()
     {
-        //todo: 解除
-        //HogeClass.OnScore -= UpdateScoreText;
+        // 解除
+        GameSystem.Instance.OnScoreChanged -= UpdateScoreText;
     }
 
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="currentScore">現在のスコア</param>
-    private void UpdateScoreText(int currentScore)
+    /// <param name="currentScore">表示したいスコア</param>
+    private void UpdateScoreText(float currentScore)
     {
         _scoreText.text = $"{currentScore}";
     }
