@@ -101,9 +101,9 @@ public class GameSystem : MonoBehaviour
 
     }
 
+    //ゴールした時の打数の数によって点数が変わる
     public void Strokesjudgement(int dasu)
     {
-        //ゴールした時の打数の数によって点数が変わる
         //ホールインワン
         int holeinoneStrokes = 1;
         //アルバトロス
@@ -118,11 +118,11 @@ public class GameSystem : MonoBehaviour
         {
             AddScore(_holeinone); 
         }
-        else if (albatrossStrokes >= num)
+        else if (albatrossStrokes >= num&& eagleStrokes < num)
         {
             AddScore(_albatross);
         }
-        else if (eagleStrokes >= num)
+        else if (eagleStrokes >= num && birdieStrokes < num)
         {
             AddScore(_eagle);
         }
