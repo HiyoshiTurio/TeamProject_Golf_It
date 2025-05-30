@@ -4,5 +4,12 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
-  m_configObjects: {}
+  m_Scenes:
+  - enabled: 1
+    path: Assets/OutGame/Scenes/StageSelect.unity
+    guid: ad8e48cd72fbe884eb0a6ca6fa52826b
+  - enabled: 1
+    path: Assets/OutGame/Scenes/Start.unity
+    guid: 4356e310d8afe7144ad8bcf75e976975
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: c1b3f3cec83e44b4fa1df61d31965769, type: 2}
