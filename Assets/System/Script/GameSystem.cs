@@ -8,7 +8,9 @@ public class GameSystem : MonoBehaviour
 {
     [SerializeField, Header("制限時間")] private float _timeLimit = 1.0f;
 
-    [SerializeField, Header("制限打数（規定打数）でゲームオーバー")] private int _Maxdasuu = 12;
+    [SerializeField, Header("制限打数（規定打数(パー)）でゲームオーバー")] private int _Maxdasuu = 12;
+
+
     //勝手に書き変わらないようにする
     public static GameSystem Instance { get; private set; }
 
@@ -43,6 +45,11 @@ public class GameSystem : MonoBehaviour
     //上位ｘ名残す
     const int MaxRankingCount = 5;
 
+    //ホールインワン
+    [SerializeField, Header("ホールインワンの得点")] float _holeinone = 100;
+    [SerializeField, Header("アルバトロスの得点")] float _albatross = 80;
+    [SerializeField, Header("イーグルの得点")] float _eagle = 60;
+    [SerializeField, Header("バーディの得点")] float _birdie = 40;
     void Awake()
     {
         Instance = this;
@@ -81,10 +88,48 @@ public class GameSystem : MonoBehaviour
         if (_dasuu < _Maxdasuu)
         {
             _gameover = true;
+            Strokesjudgement(_dasuu);
+            OnGameOverChanged?.Invoke(_gameover);
+        }
+        else
+        {
+            Strokesjudgement(_dasuu);
         }
         //ここで発火打数
         OnDasuuChanged?.Invoke(_dasuu);
-        OnGameOverChanged?.Invoke(_gameover);
+
+
+    }
+
+    public void Strokesjudgement(int dasu)
+    {
+        //ゴールした時の打数の数によって点数が変わる
+        //ホールインワン
+        int holeinoneStrokes = 1;
+        //アルバトロス
+        int albatrossStrokes = _Maxdasuu - 3;
+        //イーグル
+        int eagleStrokes = _Maxdasuu - 2;
+        //バーディ
+        int birdieStrokes = _Maxdasuu - 1;
+
+        int num = _Maxdasuu - dasu;
+        if (holeinoneStrokes == num)
+        {
+            AddScore(_holeinone); 
+        }
+        else if (albatrossStrokes >= num)
+        {
+            AddScore(_albatross);
+        }
+        else if (eagleStrokes >= num)
+        {
+            AddScore(_eagle);
+        }
+        else if (birdieStrokes >= num)
+        {
+            AddScore(_birdie);
+        }
 
     }
 
