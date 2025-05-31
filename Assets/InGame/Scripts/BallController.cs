@@ -17,7 +17,8 @@ public class BallController : MonoBehaviour
     
     public float MaxShotPower => maxShotPower;
     public float MinShotPower => minShotPower;
-    public  event Action<float> UpdateBallPower; // void UpdateBallPower(float power);
+    public  event Action<float> UpdateBallPower;
+    public Action OnBallShot;
 
     public float ShotPower
     {
@@ -59,7 +60,7 @@ public class BallController : MonoBehaviour
         if (IsBallMoving)
         {
             float moveSpeed = _rb.velocity.magnitude;
-            if (moveSpeed < 0.1f)
+            if (moveSpeed < minSpeed)
             {
                 IsBallMoving = false;
                 _canShot = true;
@@ -77,10 +78,10 @@ public class BallController : MonoBehaviour
         _rb.AddForce(direction * ShotPower,ForceMode.Impulse);
         _canShot = false;
         Invoke("BallMoving", 0.1f);
-        Debug.Log(ShotPower);
         
         _timer = 0;
         ShotPower = 0f;
+        OnBallShot?.Invoke();
     }
 
     public void ShotPowerRoulette()
@@ -92,8 +93,6 @@ public class BallController : MonoBehaviour
         var sin = Math.Sin(_timer * 90f * (Math.PI / 180f));
         float tmp = (maxShotPower - minShotPower) * (float)sin;
         ShotPower = minShotPower + tmp;
-        
-        Debug.Log(ShotPower);
     }
 
     void BallMoving()
