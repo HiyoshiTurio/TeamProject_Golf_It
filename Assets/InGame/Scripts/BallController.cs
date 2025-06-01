@@ -8,6 +8,7 @@ public class BallController : MonoBehaviour
     [SerializeField] private float minShotPower = 5f;
     [SerializeField] private GameObject directionIndicator; //ボールの向きを示すオブジェクト
     [SerializeField] private GameObject cameraLookObj;
+    private InGameManager _inGameManager;
     private Rigidbody _rb;
     private Camera _camera;
     private bool _isBallMoving = true;
@@ -17,8 +18,6 @@ public class BallController : MonoBehaviour
     
     public float MaxShotPower => maxShotPower;
     public float MinShotPower => minShotPower;
-    //public Action<float> UpdateBallPower;
-    //public Action OnBallShot;
 
     public GameObject CameraLookObj => cameraLookObj;
     public float ShotPower
@@ -47,6 +46,14 @@ public class BallController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _camera = Camera.main;
+        
+        _inGameManager = InGameManager.Instance;
+        _inGameManager.ballController = this;
+    }
+
+    private void Start()
+    {
+        _inGameManager = InGameManager.Instance;
     }
 
     private void Update()

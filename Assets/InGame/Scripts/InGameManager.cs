@@ -1,31 +1,31 @@
 using Cinemachine;
 using UnityEngine;
 using System;
+
+[DefaultExecutionOrder(-100)]
 public class InGameManager : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
-    [SerializeField] GaugeController gaugeController;
-    [SerializeField] GameObject playerPrefab;
-    [SerializeField] PlayerSound playerSound;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject playerSpawnPoint;
+    public GaugeController gaugeController;
+    public PlayerSound playerSound;
     static InGameManager _instance;
-    private BallController _ballController;
+    public BallController ballController;
     public Action<float> UpdateBallPower;
     public Action OnBallShot;
     public static InGameManager Instance => _instance;
-    public BallController BallController => _ballController;
 
     private void Awake()
     {
-        _instance = this;
+        if (_instance == null) _instance = this;
+        else Destroy(gameObject);
     }
 
     void Start()
     {
-        _ballController = playerPrefab.GetComponent<BallController>();
-        GameObject player = Instantiate(playerPrefab, transform.position, transform.rotation);
-        virtualCamera.Follow = player.GetComponent<BallController>().CameraLookObj.transform;
+        GameObject player = Instantiate(playerPrefab, playerSpawnPoint.transform.position, transform.rotation);
         
-        gaugeController.SetPlayer(_ballController);
-        UpdateBallPower += gaugeController.UpdateShotPowerGauge;
+        virtualCamera.Follow = player.GetComponent<BallController>().CameraLookObj.transform;
     }
 }

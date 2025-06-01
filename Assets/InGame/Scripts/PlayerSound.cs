@@ -7,12 +7,18 @@ public class PlayerSound : MonoBehaviour
     AudioSource _audioSource;
     InGameManager _inGameManager;
 
+    private void Awake()
+    {
+        _inGameManager = InGameManager.Instance;
+        _inGameManager.playerSound = this;
+    }
 
     void Start()
     {
-        _inGameManager = InGameManager.Instance;
         _audioSource = GetComponent<AudioSource>();
-        _ballController = _inGameManager.BallController;
+        
+        _ballController = _inGameManager.ballController;
+        _inGameManager.OnBallShot += PlayShotSound;
     }
     void PlayShotSound()
     {
