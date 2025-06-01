@@ -8,17 +8,17 @@ public class BallController : MonoBehaviour
     [SerializeField] private float minShotPower = 5f;
     [SerializeField] private GameObject directionIndicator; //ボールの向きを示すオブジェクト
     [SerializeField] private GameObject cameraLookObj;
+    [SerializeField] private float ballStopTime = 1f;
     private InGameManager _inGameManager;
     private Rigidbody _rb;
     private Camera _camera;
     private bool _isBallMoving = true;
-    private bool _canShot = false;
     private float _timer = 0;
     private float _shotPower = 0f;
+    private float _ballStopTimer = 0f;
     
     public float MaxShotPower => maxShotPower;
     public float MinShotPower => minShotPower;
-
     public GameObject CameraLookObj => cameraLookObj;
     public float ShotPower
     {
@@ -36,12 +36,10 @@ public class BallController : MonoBehaviour
         set
         {
             _isBallMoving = value;
-            if(_isBallMoving) directionIndicator.SetActive(false);
+            if (_isBallMoving) directionIndicator.SetActive(false);
             else directionIndicator.SetActive(true);
         }
     }
-
-
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -63,29 +61,19 @@ public class BallController : MonoBehaviour
         direction.Normalize();
         directionIndicator.transform.forward = direction;
         cameraLookObj.transform.position = transform.position;
-        cameraLookObj.transform.position += new Vector3(0, 1.2f, 0);
-        
-        if (IsBallMoving)
-        {
-            float moveSpeed = _rb.velocity.magnitude;
-            if (moveSpeed < minSpeed)
-            {
-                IsBallMoving = false;
-                _canShot = true;
-                StopBall();
-            }
-        }
+        cameraLookObj.transform.position += new Vector3(0, 0.02f, 0);
+        CheckBallMoving();
     }
 
     public void ShotBall()
     {
-        if(!_canShot) return;
+        if(IsBallMoving) return;
+        _rb.isKinematic = false;
         Vector3 direction = _camera.transform.forward;
         direction.y = 0;
         direction.Normalize();
         _rb.AddForce(direction * ShotPower,ForceMode.Impulse);
-        _canShot = false;
-        Invoke("BallMoving", 0.1f);
+        IsBallMoving = true;
         
         _timer = 0;
         ShotPower = 0f;
@@ -94,7 +82,7 @@ public class BallController : MonoBehaviour
 
     public void ShotPowerRoulette()
     {
-        if(!_canShot) return;
+        if(_isBallMoving) return;
         _timer += Time.deltaTime;
         if (_timer > 1f)
             _timer -= 1f;
@@ -103,13 +91,26 @@ public class BallController : MonoBehaviour
         ShotPower = minShotPower + tmp;
     }
 
-    void BallMoving()
-    {
-        IsBallMoving = true;
-    }
-
     void StopBall()
     {
         _rb.velocity = Vector3.zero;
+        _rb.isKinematic = true;
+    }
+
+    void CheckBallMoving()
+    {
+        if (IsBallMoving)
+        {
+            if (_rb.velocity.magnitude < minSpeed)
+            {
+                _ballStopTimer += Time.deltaTime;
+                if (_ballStopTimer > ballStopTime)
+                {
+                    _ballStopTimer = 0f;
+                    IsBallMoving = false;
+                    StopBall();
+                }
+            }
+        }
     }
 }

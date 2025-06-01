@@ -2,7 +2,7 @@ using Cinemachine;
 using UnityEngine;
 using System;
 
-[DefaultExecutionOrder(-100)]
+[DefaultExecutionOrder(-10)]
 public class InGameManager : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera virtualCamera;

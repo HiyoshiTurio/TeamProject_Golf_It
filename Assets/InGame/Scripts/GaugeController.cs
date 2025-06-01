@@ -1,5 +1,5 @@
 using UnityEngine;
-[DefaultExecutionOrder(100)]
+
 public class GaugeController : MonoBehaviour
 {
     [SerializeField] private GameObject gauge;

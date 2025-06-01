@@ -115,7 +115,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6898987076945983450}
@@ -217,9 +217,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &4411388660621929850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,11 +232,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8324d27eed9e7142b4b66f4e57860fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 0.3
-  maxShotPower: 20
-  minShotPower: 5
+  minSpeed: 0.05
+  maxShotPower: 5
+  minShotPower: 1
   directionIndicator: {fileID: 6073603185151149988}
   cameraLookObj: {fileID: 6190019579552950547}
+  ballStopTime: 1
 --- !u!114 &6200755768262349502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc5970d4e2b2fd4983a66bd78c6b267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballController: {fileID: 4411388660621929850}
 --- !u!1 &3304322622228010163
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,7 +558,7 @@ Transform:
   m_GameObject: {fileID: 6190019579552950547}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.48, z: 0}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
