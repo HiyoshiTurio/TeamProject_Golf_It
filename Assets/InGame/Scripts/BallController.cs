@@ -13,6 +13,7 @@ public class BallController : MonoBehaviour
     private GameSystem _gameSystem;
     private Rigidbody _rb;
     private Camera _camera;
+    Vector3 _lastPosition;
     private bool _isBallMoving = true;
     private float _timer = 0;
     private float _shotPower = 0f;
@@ -71,6 +72,7 @@ public class BallController : MonoBehaviour
     public void ShotBall()
     {
         if(IsBallMoving) return;
+        _lastPosition = transform.position;
         _rb.isKinematic = false;
         Vector3 direction = _camera.transform.forward;
         direction.y = 0;
@@ -115,6 +117,20 @@ public class BallController : MonoBehaviour
                     StopBall();
                 }
             }
+        }
+    }
+
+    void CourseOut()
+    {
+        StopBall();
+        transform.position = _lastPosition;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("CourseOutCollision"))
+        {
+            CourseOut();
         }
     }
 }
