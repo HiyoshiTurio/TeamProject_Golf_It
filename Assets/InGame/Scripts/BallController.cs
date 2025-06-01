@@ -132,5 +132,10 @@ public class BallController : MonoBehaviour
         {
             CourseOut();
         }
+
+        if (other.CompareTag("Goal"))
+        {
+            Debug.Log("Goal");
+        }
     }
 }

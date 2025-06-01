@@ -57,8 +57,7 @@ public class GameSystem : MonoBehaviour
 
     void Awake()
     {
-        if (_instance != null) Destroy(gameObject);
-        else _instance = this;
+        _instance = this;
         //イベントにメソッドを登録してる(+=)
         //goall.Instance.OnGall +=Goall;
     }
