@@ -17,16 +17,17 @@ public class BallController : MonoBehaviour
     
     public float MaxShotPower => maxShotPower;
     public float MinShotPower => minShotPower;
-    public  event Action<float> UpdateBallPower;
-    public Action OnBallShot;
+    //public Action<float> UpdateBallPower;
+    //public Action OnBallShot;
 
+    public GameObject CameraLookObj => cameraLookObj;
     public float ShotPower
     {
         get { return _shotPower; }
         set
         {
             _shotPower = value;
-            UpdateBallPower?.Invoke(_shotPower);
+            InGameManager.Instance.UpdateBallPower?.Invoke(_shotPower);
         }
     }
 
@@ -81,7 +82,7 @@ public class BallController : MonoBehaviour
         
         _timer = 0;
         ShotPower = 0f;
-        OnBallShot?.Invoke();
+        InGameManager.Instance.OnBallShot?.Invoke();
     }
 
     public void ShotPowerRoulette()

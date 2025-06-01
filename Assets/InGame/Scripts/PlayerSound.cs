@@ -3,13 +3,16 @@ using UnityEngine;
 public class PlayerSound : MonoBehaviour
 {
     [SerializeField] AudioClip shotAudioSource;
-    [SerializeField] BallController ballController;
+    BallController _ballController;
     AudioSource _audioSource;
+    InGameManager _inGameManager;
 
-    private void Start()
+
+    void Start()
     {
-        ballController.OnBallShot += PlayShotSound;
+        _inGameManager = InGameManager.Instance;
         _audioSource = GetComponent<AudioSource>();
+        _ballController = _inGameManager.BallController;
     }
     void PlayShotSound()
     {
