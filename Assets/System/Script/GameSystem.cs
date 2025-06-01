@@ -50,9 +50,22 @@ public class GameSystem : MonoBehaviour
     [SerializeField, Header("アルバトロスの得点")] float _albatross = 80;
     [SerializeField, Header("イーグルの得点")] float _eagle = 60;
     [SerializeField, Header("バーディの得点")] float _birdie = 40;
+
+
+    //ごーるの判定を受け取たいがないので受け取る準備だけします
+
     void Awake()
     {
         Instance = this;
+        //イベントにメソッドを登録してる(+=)
+        //goall.Instance.OnGall +=Goall;
+
+    }
+
+    private void OnDestroy()
+    {
+        //登録解除
+        //goall.Instance.OnGall -=Goall;
     }
 
     public void ResetScore()
@@ -91,7 +104,7 @@ public class GameSystem : MonoBehaviour
             Strokesjudgement(_dasuu);
             OnGameOverChanged?.Invoke(_gameover);
         }
-        else
+        else //if(goall)
         {
             Strokesjudgement(_dasuu);
         }
