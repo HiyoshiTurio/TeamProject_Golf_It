@@ -3,22 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-//ƒQ[ƒ€ƒVƒXƒeƒ€ƒNƒ‰ƒX
+//ã‚²ãƒ¼ãƒ ã‚·ã‚¹ãƒ†ãƒ ã‚¯ãƒ©ã‚¹
 public class GameSystem : MonoBehaviour
 {
-    [SerializeField, Header("§ŒÀŠÔ")] private float _timeLimit = 1.0f;
+    [SerializeField, Header("åˆ¶é™æ™‚é–“")] private float _timeLimit = 1.0f;
 
-    [SerializeField, Header("§ŒÀ‘Å”i‹K’è‘Å”(ƒp[)j‚ÅƒQ[ƒ€ƒI[ƒo[")] private int _Maxdasuu = 12;
+    [SerializeField, Header("åˆ¶é™æ‰“æ•°ï¼ˆè¦å®šæ‰“æ•°(ãƒ‘ãƒ¼)ï¼‰ã§ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼")] private int _Maxdasuu = 12;
 
 
-    //Ÿè‚É‘‚«•Ï‚í‚ç‚È‚¢‚æ‚¤‚É‚·‚é
-    public static GameSystem Instance { get; private set; }
+    private static GameSystem _instance;
+    //å‹æ‰‹ã«æ›¸ãå¤‰ã‚ã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
+    public static GameSystem Instance => _instance; 
 
-    //i@OƒÖOjEEEƒRƒR‚Åg‚Á‚Ä‚é‚â‚ñeventc
-    [SerializeField, Header("ƒQ[ƒ€ƒI[ƒo[‚ÌƒCƒxƒ“ƒg")]
+    //ï¼ˆã€€ï¼¾Ï‰ï¼¾ï¼‰ãƒ»ãƒ»ãƒ»ã‚³ã‚³ã§ä½¿ã£ã¦ã‚‹ã‚„ã‚“eventâ€¦
+    [SerializeField, Header("ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã®ã‚¤ãƒ™ãƒ³ãƒˆ")]
     private UnityEvent _eventOnGO;
 
-    //ƒXƒRƒA‚â‰½è‚ğ‘Å‚Á‚½‚ÌƒXƒRƒA
+    //ã‚¹ã‚³ã‚¢ã‚„ä½•æ‰‹ã‚’æ‰“ã£ãŸã®ã‚¹ã‚³ã‚¢
 
     private float _score;
 
@@ -26,45 +27,45 @@ public class GameSystem : MonoBehaviour
 
     private bool _gameover;
 
-    //‚â‚é‚±‚ÆuŒc^‚ªƒXƒRƒA‚Æ‘Å”•\¦—p‚Éƒƒ\ƒbƒh‚ğƒCƒxƒ“ƒg‚É“o˜^‚·‚éi‚æ‚­—‰ğ‚Å‚«‚Ä‚È‚¢j‚ğì‚Á‚½‚ç‚µ‚¢‚Ì‚Å‚±‚Á‚¿
-    //‚ÍƒCƒxƒ“ƒg’è‹`‚µ‚Ä”­‰ÎHi‚È‚ñ‚â”­‰Î‚Á‚Äj‚Í‚±‚Á‚¿‚Å‚â‚é‚Á‚Ä
-    //‚¿‚á‚Á‚Ò[‚É•·‚¢‚½‚ç‘½•ª‚±‚ñ‚È“z‚¾‚Æv‚¤
+    //ã‚„ã‚‹ã“ã¨å¿—æ…¶çœŸãŒã‚¹ã‚³ã‚¢ã¨æ‰“æ•°è¡¨ç¤ºç”¨ã«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ã‚¤ãƒ™ãƒ³ãƒˆã«ç™»éŒ²ã™ã‚‹ï¼ˆã‚ˆãç†è§£ã§ãã¦ãªã„ï¼‰ã‚’ä½œã£ãŸã‚‰ã—ã„ã®ã§ã“ã£ã¡
+    //ã¯ã‚¤ãƒ™ãƒ³ãƒˆå®šç¾©ã—ã¦ç™ºç«ï¼Ÿï¼ˆãªã‚“ã‚„ç™ºç«ã£ã¦ï¼‰ã¯ã“ã£ã¡ã§ã‚„ã‚‹ã£ã¦
+    //ã¡ã‚ƒã£ã´ãƒ¼ã«èã„ãŸã‚‰å¤šåˆ†ã“ã‚“ãªå¥´ã ã¨æ€ã†
 
-    //ƒXƒRƒA•ÏXƒCƒxƒ“ƒg’è‹`ifloat = V‚µ‚¢ƒXƒRƒAj
+    //ã‚¹ã‚³ã‚¢å¤‰æ›´ã‚¤ãƒ™ãƒ³ãƒˆå®šç¾©ï¼ˆfloat = æ–°ã—ã„ã‚¹ã‚³ã‚¢ï¼‰
     public event Action<float> OnScoreChanged;
-    //‘Å”•ÏXƒCƒxƒ“ƒg’è‹`iint = V‚µ‚¢‘Å”j
+    //æ‰“æ•°å¤‰æ›´ã‚¤ãƒ™ãƒ³ãƒˆå®šç¾©ï¼ˆint = æ–°ã—ã„æ‰“æ•°ï¼‰
     public event Action<int> OnDasuuChanged;
-    //ƒQ[ƒ€ƒI[ƒo[‚ÌƒCƒxƒ“ƒg’è‹`
+    //ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã®ã‚¤ãƒ™ãƒ³ãƒˆå®šç¾©
     public event Action<bool> OnGameOverChanged;
 
-    //‚±‚ÌƒCƒxƒ“ƒg‚µ‚½‚È‚©‚Á‚½‚È•×‹­‚É‚È‚½B
-    //ƒvƒŒƒCƒ„[‚ª‘Å”‚Ì‚â‚Â“Ç‚ñ‚Å‚­‚ê‚é‚©‚ç‚±‚Á‚¿‚Å§ŒÀ‚ğ‚·‚é
+    //ã“ã®ã‚¤ãƒ™ãƒ³ãƒˆã—ãŸãªã‹ã£ãŸãªå‹‰å¼·ã«ãªãŸã€‚
+    //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ‰“æ•°ã®ã‚„ã¤èª­ã‚“ã§ãã‚Œã‚‹ã‹ã‚‰ã“ã£ã¡ã§åˆ¶é™ã‚’ã™ã‚‹
 
 
-    //ƒ‰ƒ“ƒLƒ“ƒO‚ÌÀ‘•
-    //ãˆÊ‚˜–¼c‚·
+    //ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã®å®Ÿè£…
+    //ä¸Šä½ï½˜åæ®‹ã™
     const int MaxRankingCount = 5;
 
-    //ƒz[ƒ‹ƒCƒ“ƒƒ“
-    [SerializeField, Header("ƒz[ƒ‹ƒCƒ“ƒƒ“‚Ì“¾“_")] float _holeinone = 100;
-    [SerializeField, Header("ƒAƒ‹ƒoƒgƒƒX‚Ì“¾“_")] float _albatross = 80;
-    [SerializeField, Header("ƒC[ƒOƒ‹‚Ì“¾“_")] float _eagle = 60;
-    [SerializeField, Header("ƒo[ƒfƒB‚Ì“¾“_")] float _birdie = 40;
+    //ãƒ›ãƒ¼ãƒ«ã‚¤ãƒ³ãƒ¯ãƒ³
+    [SerializeField, Header("ãƒ›ãƒ¼ãƒ«ã‚¤ãƒ³ãƒ¯ãƒ³ã®å¾—ç‚¹")] float _holeinone = 100;
+    [SerializeField, Header("ã‚¢ãƒ«ãƒãƒˆãƒ­ã‚¹ã®å¾—ç‚¹")] float _albatross = 80;
+    [SerializeField, Header("ã‚¤ãƒ¼ã‚°ãƒ«ã®å¾—ç‚¹")] float _eagle = 60;
+    [SerializeField, Header("ãƒãƒ¼ãƒ‡ã‚£ã®å¾—ç‚¹")] float _birdie = 40;
 
 
-    //‚²[‚é‚Ì”»’è‚ğó‚¯æ‚½‚¢‚ª‚È‚¢‚Ì‚Åó‚¯æ‚é€”õ‚¾‚¯‚µ‚Ü‚·
+    //ã”ãƒ¼ã‚‹ã®åˆ¤å®šã‚’å—ã‘å–ãŸã„ãŒãªã„ã®ã§å—ã‘å–ã‚‹æº–å‚™ã ã‘ã—ã¾ã™
 
     void Awake()
     {
-        Instance = this;
-        //ƒCƒxƒ“ƒg‚Éƒƒ\ƒbƒh‚ğ“o˜^‚µ‚Ä‚é(+=)
+        if (_instance != null) Destroy(gameObject);
+        else _instance = this;
+        //ã‚¤ãƒ™ãƒ³ãƒˆã«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç™»éŒ²ã—ã¦ã‚‹(+=)
         //goall.Instance.OnGall +=Goall;
-
     }
 
     private void OnDestroy()
     {
-        //“o˜^‰ğœ
+        //ç™»éŒ²è§£é™¤
         //goall.Instance.OnGall -=Goall;
     }
 
@@ -80,12 +81,12 @@ public class GameSystem : MonoBehaviour
     public void AddScore(float amount)
     {
         _score += amount;
-        //ƒXƒRƒA‚ğƒ}ƒCƒiƒX‚·‚é‚Æ‚«ƒ}ƒCƒiƒX‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+        //ã‚¹ã‚³ã‚¢ã‚’ãƒã‚¤ãƒŠã‚¹ã™ã‚‹ã¨ããƒã‚¤ãƒŠã‚¹ã«ãªã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
         if (_score < 0)
         {
             _score = 0;
         }
-        //‚±‚±‚Å”­‰ÎƒXƒRƒA
+        //ã“ã“ã§ç™ºç«ã‚¹ã‚³ã‚¢
         OnScoreChanged?.Invoke(_score);
     }
 
@@ -108,22 +109,20 @@ public class GameSystem : MonoBehaviour
         {
             Strokesjudgement(_dasuu);
         }
-        //‚±‚±‚Å”­‰Î‘Å”
+        //ã“ã“ã§ç™ºç«æ‰“æ•°
         OnDasuuChanged?.Invoke(_dasuu);
-
-
     }
 
-    //ƒS[ƒ‹‚µ‚½‚Ì‘Å”‚Ì”‚É‚æ‚Á‚Ä“_”‚ª•Ï‚í‚é
+    //ã‚´ãƒ¼ãƒ«ã—ãŸæ™‚ã®æ‰“æ•°ã®æ•°ã«ã‚ˆã£ã¦ç‚¹æ•°ãŒå¤‰ã‚ã‚‹
     public void Strokesjudgement(int dasu)
     {
-        //ƒz[ƒ‹ƒCƒ“ƒƒ“
+        //ãƒ›ãƒ¼ãƒ«ã‚¤ãƒ³ãƒ¯ãƒ³
         int holeinoneStrokes = 1;
-        //ƒAƒ‹ƒoƒgƒƒX
+        //ã‚¢ãƒ«ãƒãƒˆãƒ­ã‚¹
         int albatrossStrokes = _Maxdasuu - 3;
-        //ƒC[ƒOƒ‹
+        //ã‚¤ãƒ¼ã‚°ãƒ«
         int eagleStrokes = _Maxdasuu - 2;
-        //ƒo[ƒfƒB
+        //ãƒãƒ¼ãƒ‡ã‚£
         int birdieStrokes = _Maxdasuu - 1;
 
         int num = _Maxdasuu - dasu;
@@ -147,26 +146,26 @@ public class GameSystem : MonoBehaviour
     }
 
 
-    //ƒ‰ƒ“ƒLƒ“ƒO‚Ì•Û‘¶
+    //ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã®ä¿å­˜
     public void SaveScoreToRanking()
     {
         List<float> ranking = LoadRanking();
         ranking.Add(_score);
         ranking.Sort((a, b) => b.CompareTo(a));
-        //ãˆÊ‚Ì‚˜Œ‚É
+        //ä¸Šä½ã®ï½˜ä»¶ã«
         if (ranking.Count > MaxRankingCount)
         {
             ranking = ranking.GetRange(0, MaxRankingCount);
         }
 
-        //•Û‘¶
+        //ä¿å­˜
         for (int i = 0; i < ranking.Count; i++)
         {
             PlayerPrefs.SetFloat($"Ranking_{i}", ranking[i]);
         }
         PlayerPrefs.Save();
     }
-    //ƒ‰ƒ“ƒLƒ“ƒO‚Ìæ“¾
+    //ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã®å–å¾—
     public List<float> LoadRanking()
     {
         List<float> ranging = new List<float>();
@@ -180,6 +179,5 @@ public class GameSystem : MonoBehaviour
             }
         }
         return ranging;
-
     }
 }

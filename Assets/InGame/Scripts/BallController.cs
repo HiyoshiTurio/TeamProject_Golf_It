@@ -10,6 +10,7 @@ public class BallController : MonoBehaviour
     [SerializeField] private GameObject cameraLookObj;
     [SerializeField] private float ballStopTime = 1f;
     private InGameManager _inGameManager;
+    private GameSystem _gameSystem;
     private Rigidbody _rb;
     private Camera _camera;
     private bool _isBallMoving = true;
@@ -47,6 +48,8 @@ public class BallController : MonoBehaviour
         
         _inGameManager = InGameManager.Instance;
         _inGameManager.ballController = this;
+        
+        _gameSystem = GameSystem.Instance;
     }
 
     private void Start()
@@ -78,6 +81,7 @@ public class BallController : MonoBehaviour
         _timer = 0;
         ShotPower = 0f;
         InGameManager.Instance.OnBallShot?.Invoke();
+        _gameSystem.AddDasuu(1);
     }
 
     public void ShotPowerRoulette()
