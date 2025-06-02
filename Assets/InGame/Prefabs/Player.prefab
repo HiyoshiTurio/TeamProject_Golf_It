@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 0.05
-  maxShotPower: 15
+  maxShotPower: 11
   minShotPower: 2
   directionIndicator: {fileID: 6073603185151149988}
   cameraLookObj: {fileID: 6190019579552950547}
