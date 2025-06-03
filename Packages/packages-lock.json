@@ -1,19 +1,5 @@
 {
   "dependencies": {
-    "com.unity.addressables": {
-      "version": "1.21.21",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.assetbundle": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0",
-        "com.unity.modules.imageconversion": "1.0.0",
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.scriptablebuildpipeline": "1.21.23",
-        "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.cinemachine": {
       "version": "2.10.3",
       "depth": 0,
@@ -83,6 +69,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.mathematics": {
+      "version": "1.2.6",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.performance.profile-analyzer": {
       "version": "1.2.2",
       "depth": 1,
@@ -90,18 +83,33 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.scriptablebuildpipeline": {
-      "version": "1.21.23",
+    "com.unity.probuilder": {
+      "version": "5.2.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.imgui": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.settings-manager": "1.0.3"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.settings-manager": {
+      "version": "2.0.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.settings-manager": {
-      "version": "2.0.1",
-      "depth": 2,
+    "com.unity.splines": {
+      "version": "2.6.1",
+      "depth": 0,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.mathematics": "1.2.1",
+        "com.unity.settings-manager": "1.0.3"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {

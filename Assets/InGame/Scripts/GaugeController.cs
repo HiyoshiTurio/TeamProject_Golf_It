@@ -4,18 +4,26 @@ public class GaugeController : MonoBehaviour
 {
     [SerializeField] private GameObject gauge;
     [SerializeField] private GameObject graceGauge;
-    [SerializeField] private BallController ballController;
+    InGameManager _inGameManager;
     private float _gaugeHeight;
+    private float _minShotPower;
+
+    private void Awake()
+    {
+        _inGameManager = InGameManager.Instance;
+    }
 
     private void Start()
     {
+        BallController ballController = _inGameManager.ballController;
+        _minShotPower = ballController.MinShotPower;
         _gaugeHeight = gauge.GetComponent<RectTransform>().sizeDelta.y / (ballController.MaxShotPower - ballController.MinShotPower);
-        ballController.UpdateBallPower += UpdateShotPowerGauge;
+        _inGameManager.UpdateBallPower += UpdateShotPowerGauge;
     }
-    void UpdateShotPowerGauge(float shotPower)
+    public void UpdateShotPowerGauge(float shotPower)
     {
         Vector2 nowSafes = gauge.GetComponent<RectTransform>().sizeDelta;
-        nowSafes.y = (shotPower - ballController.MinShotPower) * _gaugeHeight;
+        nowSafes.y = (shotPower - _minShotPower) * _gaugeHeight;
         gauge.GetComponent<RectTransform>().sizeDelta = nowSafes;
     }
 }

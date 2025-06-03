@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] BallController ballController;
+    private BallController _ballController;
     void Start()
     {
+        _ballController = GetComponent<BallController>();
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -17,12 +18,12 @@ public class PlayerInput : MonoBehaviour
 
         if (Input.GetButton("Fire1"))
         {
-            ballController.ShotPowerRoulette();
+            _ballController.ShotPowerRoulette();
         }
 
         if (Input.GetButtonUp("Fire1"))
         {
-            ballController.ShotBall();
+            _ballController.ShotBall();
         }
         if (Input.GetButtonDown("Cancel"))
         {
